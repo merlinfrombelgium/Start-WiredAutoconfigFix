@@ -3,7 +3,7 @@ $SetupCompleteTemplate = "$env:WINDIR\CCM\SetupCompleteTemplate.cmd"
 
 # String to search for in $SetupCompleteTemplate to find where we should put our customizations
 # Escape backslash (\) with another backslash (\\)
-$TemplateSearchString = "%SCCMClientPath%\\TSMBootstrap.exe"
+$TemplateSearchString = "\\TSMBootstrap.exe"
 
 # Get the content of $SetupCompleteTemplate
 $TemplateContent = Get-Content $SetupCompleteTemplate
@@ -26,13 +26,13 @@ $CustomPart = (
 "echo %DATE%-%TIME% `"Custom Configuration`" >> %WINDIR%\setupcomplete.log",
 "echo %DATE%-%TIME% `"Disabling NetAdapters for 5 seconds`" >> %windir%\setupcomplete.log",
 "echo Disabling NetAdapters for 5 seconds",
-"powershell.exe -command `"$NetAdapters = Get-NetAdapter -Physical | where {$_.PhysicalMediaType -eq 802.3}`"",
-"powershell.exe -command `"Disable-NetAdapter $NetAdapters -Confirm:`$false -PassThru -Verbose`" >> %WINDIR%\setupcomplete.log",
+"powershell.exe -command `"`$NetAdapters = Get-NetAdapter -Physical | where {`$_.PhysicalMediaType -eq 802.3}`"",
+"powershell.exe -command `"Disable-NetAdapter `$NetAdapters -Confirm:`$false -PassThru -Verbose`" >> %WINDIR%\setupcomplete.log",
 "powershell.exe -command `"Start-Sleep 5`"",
 
 "echo %DATE%-%TIME% `"Enabling NetAdapters and sleeping for 15 seconds`" >> %windir%\setupcomplete.log",
 "echo Enabling NetAdapters and waits 15 seconds",
-"powershell.exe -command `"Enable-NetAdapter $NetAdapters -Confirm:`$false -PassThru -Verbose`" >> %WINDIR%\setupcomplete.log",
+"powershell.exe -command `"Enable-NetAdapter `$NetAdapters -Confirm:`$false -PassThru -Verbose`" >> %WINDIR%\setupcomplete.log",
 "powershell.exe -command `"Start-Sleep 15`"",
 
 "echo %DATE%-%TIME% `"Restarting Wired Autoconfig Services`" >> %WINDIR%\setupcomplete.log",
